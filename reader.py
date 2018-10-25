@@ -4,7 +4,7 @@ It implements the following functions
 	- `read_data`: gen. :
 		Responsible for reading a headerless csv file in the format `Full Name,e-mail` and yielding each row
 """
-import csv
+import csv, json
 
 
 def read_data(file_name):
@@ -16,7 +16,7 @@ def read_data(file_name):
 
 	input: file_name : string
 	yields:
-		name(string), e-mail(string)
+		a json {name: name(string), mail: mail(string)}
 	"""
 	with open(file_name, 'r') as data_file:
 		data = csv.reader(data_file, delimiter=',', quotechar='"')
@@ -24,7 +24,7 @@ def read_data(file_name):
 			try:
 				# just making sure that the row complies to the assumed format
 				name, mail = row
-				yield name, mail
+				yield {'name': name, 'mail': mail}
 			except ValueError as _:
 				# whoops, wrong format (Python couldn't unpack the 2 values). ignore and continue
 				continue
