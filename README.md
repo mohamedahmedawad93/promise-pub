@@ -1,2 +1,4 @@
 # promise-pub
-This repo is a demonstration of a system publishing events over some channel.
+
+A Python system that reads events of a csv then publishes them over a message broker
+
