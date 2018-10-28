@@ -3,8 +3,8 @@
 A Python system that reads events of the data.csv and publishes them over rabbitmq. This program was developed and tested using python 3.5.2
 
 
-##Endpoints
-	- GET / : 	  renders the templates/index.html
+## Endpoints
+	- GET / : renders the templates/index.html
 	- GET /simulate/: Simulate endpoint, creates a protocol, starts it and returns a simple html report rendered from templates/result.html, this endpoint takes as querystring:
 		1. timeout int    default=5, duration in seconds where the consumer should close the session after the queue is empty for x seconds after the consumer started listening on the queue
 		2. mode    string options are 'live' or 'batch', default='live'
@@ -12,8 +12,12 @@ A Python system that reads events of the data.csv and publishes them over rabbit
 
 ## Usage
 run
-```pip install -r requirements.txt```
-```python main.py```
+```
+pip install -r requirements.txt
+```
+```
+python main.py
+```
 
 
 ## Modules
