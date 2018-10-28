@@ -5,7 +5,7 @@ from settings import RABBIT_SETTINGS
 
 
 class ConsumerProtocol:
-	def __init__(self, data_file, timeout=5):
+	def __init__(self, data_file, timeout):
 		self.session = create_session(timeout)
 		self.data = read_data(data_file)
 		self.timeout = timeout
