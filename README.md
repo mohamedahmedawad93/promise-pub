@@ -1,6 +1,10 @@
 # promise-pub
 
-A Python system that reads events of the data.csv and publishes them over rabbitmq. This program was developed and tested using python 3.5.2
+A Python webserver that reads events of the `data.csv` and publishes them over rabbitmq. This program was developed and tested using python 3.5.2
+
+The reason behind using aiohttp as the webserver is to prevent multiple data transmission with the consumer at the same time since aiohttp is asynchronus and runs in a single thread. This enables us to block the whole server and serve one request at a time.
+
+This webserver renders its HTML using `aiohttp_jinja2` library
 
 
 ## Endpoints
