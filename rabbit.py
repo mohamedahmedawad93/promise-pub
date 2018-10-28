@@ -2,13 +2,12 @@
 This is the rabbitmq module, it uses internally one of the heavily maintained amq python client `pika`
 """
 import pika, json
-from settings import RABBIT
 
 
 __all__ = ['RMQConnection']
 
 
-class __RMQConnection:
+class RMQConnection:
 	"""
 	A rabbit mq connection class that encapsulates the settings reading, openning connection and channel
 	and exposes mainly 4 methods:
@@ -17,12 +16,11 @@ class __RMQConnection:
 		3. send    sends a json message
 		4. reset   closes the connection and re-connect
 	"""
-	def __init__(self):
-		self._host = RABBIT.get('host', 'localhost')
-		self._qname = RABBIT.get('queue', 'default_queue')
+	def __init__(self, host, q):
+		self._host = host
+		self._qname = q
 		self._connection = None
 		self._channel = None
-		self.connect()
 
 	def close(self):
 		if not self._connection:
@@ -36,8 +34,8 @@ class __RMQConnection:
 				pika.ConnectionParameters(self._host)
 			)
 		self._channel = self._connection.channel()
-		self._channel.queue_declare(queue=self._qname, durable=True, exclusive=False, auto_delete=False)
-		self._channel.confirm_delivery()
+		# self._channel.queue_declare(queue=self._qname, durable=True, exclusive=False, auto_delete=False)
+		# self._channel.confirm_delivery()
 
 	def send(self, msg, max_retries=5):
 		if max_retries-1 < 0:
@@ -59,5 +57,11 @@ class __RMQConnection:
 		self.close()
 		self.connect()
 
+	def __enter__(self):
+		self.connect()
+		return self
 
-RMQConnection = __RMQConnection()
+	def __exit__(self, exc_type, exc_value, tb):
+		if exc_type is not None:
+			raise exc_type(exc_value)
+		self.close()

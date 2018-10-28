@@ -14,8 +14,8 @@ validate_ini(config)
 
 
 ################################################ RABBITMQ SETTINGS ################################################
-RABBIT = dict(config['rabbit'])
+RABBIT_SETTINGS = dict(config['rabbit'])
 
 
 ################################################ CONSUMER SETTINGS ################################################
-CONSUMER = dict(config['consumer'])
+CONSUMER_SETTINGS = dict(config['consumer'])
