@@ -1,0 +1,14 @@
+aiohttp==2.3.10
+aiohttp-jinja2==0.15.0
+async-timeout==2.0.1
+certifi==2018.10.15
+chardet==3.0.4
+idna==2.7
+idna-ssl==1.1.0
+Jinja2==2.10
+MarkupSafe==1.0
+multidict==4.4.2
+pika==0.12.0
+requests==2.20.0
+urllib3==1.24
+yarl==1.2.0
