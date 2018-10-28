@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simulation</title>
+	<style type="text/css">
+		.one-half {
+			width: 50%;
+			float: left;
+		}
+		.stretch {
+			width: 100%;
+			display: block;
+		}
+		.space-form {
+		}
+	</style>
+</head>
+<body>
+	<div class="stretch">
+		<div class="one-half">
+			<form action="/simulate/">
+				<div>
+					<label>Timeout in seconds</label>
+				</div>
+				<div>
+					<input name="timeout" lass="space-form" type="number" placeholder="timeout value" value="10"/>
+				</div>
+				<div>
+					<label>Mode</label>
+				</div>
+				<div>
+					<select name="mode" class="space-form">
+					  <option value="live">live</option>
+					  <option value="batch">batch</option>
+					</select>
+				</div>
+				<input type="submit"></input>
+			</form>
+		</div>
+		<div class="one-half">
+			
+		</div>
+	</div>
+	<div class="stretch">
+		
+	</div>
+</body>
+</html>

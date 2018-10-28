@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simulation result</title>
+</head>
+<body>
+	<div>
+		<a href="/"><< back to index</a>
+	</div>
+	<div>
+		<label>Simulation status: </label><p style="color: {% if status=='completed' %}green{% else %}red{% endif %}">{{status}}</p>
+		<label>Rows sent: </label><p>{{sent}}</p>
+		<label>Rows received: </label><p>{{checksum}}</p>
+	</div>
+</body>
+</html>
