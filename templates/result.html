@@ -5,12 +5,18 @@
 </head>
 <body>
 	<div>
-		<a href="/"><< back to index</a>
+		<a href="/"><< back to home</a>
 	</div>
+	<h1>Report:</h1>
 	<div>
-		<label>Simulation status: </label><p style="color: {% if status=='completed' %}green{% else %}red{% endif %}">{{status}}</p>
-		<label>Rows sent: </label><p>{{sent}}</p>
-		<label>Rows received: </label><p>{{checksum}}</p>
+		<!-- <p style="color: {% if status=='completed' %}green{% else %}red{% endif %}; font: 20px;">{{status}}</p> -->
+		<p>Rows sent: {{sent}}</p>
+		<label>Session Info: </label>
+		<ul>
+			<li>UUID: {{info.uuid}}</li>
+			<li>Received: {{info.checksum}}</li>
+			<li>Saved: {{info.saved}}</li>
+		</ul>
 	</div>
 </body>
 </html>

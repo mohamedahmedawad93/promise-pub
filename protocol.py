@@ -19,7 +19,7 @@ class ConsumerProtocol:
 class LiveProtocol(ConsumerProtocol):
 	
 	def start(self):
-		i, check_sum = None, None
+		i = None
 		with self.rconn as rconn:
 			with self.session as session:
 				session.start_processing()
@@ -27,14 +27,13 @@ class LiveProtocol(ConsumerProtocol):
 				for row in self.data:
 					print('sending row', row)
 					i += self.rconn.send(row)
-				check_sum = session.check_sum
-		return i, check_sum
+		return i, self.session.info
 
 
 class BatchProtocol(ConsumerProtocol):
 	
 	def start(self):
-		i, check_sum = None, None
+		i = None
 		with self.rconn as rconn:
 			with self.session as session:
 				i = 0
@@ -42,5 +41,4 @@ class BatchProtocol(ConsumerProtocol):
 					print('sending row', row)
 					i += self.rconn.send(row)
 				session.start_processing(mode='batch')
-				check_sum = session.check_sum
-		return i, check_sum
+		return i, self.session.info

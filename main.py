@@ -22,12 +22,12 @@ async def simulate(request):
 		return {'status': 'Wrong timeout value supplied, timeout must be an int', 'sent': 0, 'checksum': 0}
 	proto = protocol_class('data.csv', timeout)
 	res = proto.start()
-	sent, checksum = 0, 0
+	sent, info = 0, {}
 	status = 'not-completed'
 	if res:
-		sent, checksum = res
+		sent, info = res
 		status = 'completed'
-	return {'status': status, 'sent': sent, 'checksum': checksum}
+	return {'status': status, 'sent': sent, 'info': info}
 
 
 @aiohttp_jinja2.template('index.html')

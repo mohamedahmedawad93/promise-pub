@@ -12,35 +12,34 @@ CONSUMER_DELETE_URL = '%s%s' %(CONSUMER_URL, CONSUMER_SETTINGS.get('remove_url',
 CONSUMER_PROCESS_URL = '%s%s' %(CONSUMER_URL, CONSUMER_SETTINGS.get('process_url', '/process/'))
 CONSUMER_GETSESSION_URL = '%s%s' %(CONSUMER_URL, CONSUMER_SETTINGS.get('getsession_url', '/getSession/'))
 CONSUMER_OK_RESPONSE = 'OK'
+CONSUMER_ERROR_RESPONSE = 'ERROR'
 
 
 class ConsumerSession:
 	def __init__(self, _uuid, timeout):
 		self._uuid = _uuid
 		self._timeout = timeout
+		self._info = None
 
 	@property
 	def queue(self):
 	    return self._uuid
 
-	def delete(self):
+	def close(self):
 		res = requests.get(CONSUMER_DELETE_URL, params={'uuid': self.queue})
-		assert res.text == CONSUMER_OK_RESPONSE
+		if res.text == CONSUMER_ERROR_RESPONSE:
+			raise Exception("Couldnt close the session, received `%s`" %res.text)
+		self._info = res.json()
 
 	def start_processing(self, mode='live'):
 		res = requests.get(CONSUMER_PROCESS_URL, params={'uuid': self.queue, 'timeout': self._timeout, 'mode': mode})
 		assert res.text == CONSUMER_OK_RESPONSE
 
 	@property
-	def check_sum(self):
-		res = requests.get(CONSUMER_GETSESSION_URL, params={'uuid': self.queue})
-		print(res.text)
-		try:
-			json = res.json()
-			print('session entity', json)
-			return json.get('checksum', 0)
-		except:
-			return 0
+	def info(self):
+		if self._info is None:
+			raise ValueError("Info will only be available after closing the session")
+		return self._info
 
 	def __enter__(self):
 		return self
@@ -48,7 +47,7 @@ class ConsumerSession:
 	def __exit__(self, exc_type, exc_value, tb):
 		if exc_type is not None:
 			raise exc_type(exc_value)
-		self.delete()
+		self.close()
 
 
 def create_session(timeout):
