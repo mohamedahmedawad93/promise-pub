@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ```
 python main.py
 ```
-
+Then visit http://localhost:8000
 
 ## Modules
 	- main:     Implements the endpoints handlers
