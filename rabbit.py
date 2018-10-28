@@ -34,8 +34,6 @@ class RMQConnection:
 				pika.ConnectionParameters(self._host)
 			)
 		self._channel = self._connection.channel()
-		# self._channel.queue_declare(queue=self._qname, durable=True, exclusive=False, auto_delete=False)
-		# self._channel.confirm_delivery()
 
 	def send(self, msg, max_retries=5):
 		if max_retries-1 < 0:

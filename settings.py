@@ -1,3 +1,6 @@
+"""
+Parses the production.ini file and loads the sections into RABBIT_SETTINGS and CONSUMER_SETTINGS dictionaries
+"""
 import configparser
 
 

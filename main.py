@@ -1,3 +1,25 @@
+"""
+Entry point of this program
+
+It starts an aiohttp server listening on port `8000` with 2 endpoints
+	GET /          - Index endpoint, it renders the html file in templates/index.html
+	GET /simulate/ - Simulate endpoint, creates a protocol, starts it and returns a simple html report rendered from
+					templates/result.html
+				   - this endpoint takes as querystring
+				   	1. timeout int    default=5
+								   	  duration in seconds where the consumer should close the session after the queue is empty 
+								   		  for x seconds after the consumer started listening on the queue
+				   	2. mode    string options are 'live' or 'batch', default='live'
+
+The reason behind using aiohttp is to prevent multiple data transmission with the consumer at the same time since aiohttp 
+	is asynchronus and runs in a single thread. This enables us to block the whole server and serve one request at a time.
+
+
+This webserver renders its HTML using aiohttp_jinja2 library
+
+usage:
+	$ python main.py
+"""
 import os
 import json
 import aiohttp_jinja2
