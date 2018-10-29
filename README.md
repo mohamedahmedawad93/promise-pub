@@ -6,6 +6,34 @@ The reason behind using aiohttp as the webserver is to prevent multiple data tra
 
 This webserver renders its HTML using `aiohttp_jinja2` library
 
+## Database
+We are using postgresql so you need to make a database with scheme identical to the scheme.sql file
+
+
+## Before you start
+	1. make sure you have an instance of postgresql database up and running with a database scheme identical to the one in scheme.sql file.
+	2. make sure you have an instance of rabbitmq up and running
+	3. make sure the consumer is up and running
+	4. make sure to update the consumer, rabbit and database sections in .ini file
+
+## .ini
+#### the production.ini file needs to be set with the following sections and values
+	1. rabbit:
+		1. host (mandatory): the address host of the rabbitmq instance
+	2. consumer:
+		1. host (mandatory): the address of the consumer
+		2. port (mandatory): the port of the consumer
+		3. healthcheck_url (optional): default /healthcheck/
+		4. create_url (optional): endpoint to create a new session default /create/
+		5. remove_url (optional): endpoint to remove a session default /remove/
+		6. process_url (optional): endpoint to start consuming the session queue default /process/
+		7. getsession_url (optional): endpoint to get the session object default /getSession/
+	3. database:
+		1. host (optional): default localhost
+		2. port (optional): integer default 5432
+		3. dbname (mandatory): database name
+		4. user (mandatory): user for the database
+		5. password (mandatory): password for the database
 
 ## Endpoints
 	- GET / : renders the templates/index.html
