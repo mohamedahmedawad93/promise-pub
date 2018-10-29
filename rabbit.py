@@ -2,6 +2,7 @@
 This is the rabbitmq module, it uses internally one of the heavily maintained amq python client `pika`
 """
 import pika, json
+from exceptions import RabbitmqNotAvailableException
 
 
 __all__ = ['RMQConnection']
@@ -30,9 +31,12 @@ class RMQConnection:
 		self._connection = None
 
 	def connect(self):
-		self._connection = pika.BlockingConnection(
-				pika.ConnectionParameters(self._host)
-			)
+		try:
+			self._connection = pika.BlockingConnection(
+					pika.ConnectionParameters(self._host)
+				)
+		except:
+			raise RabbitmqNotAvailableException("Unaible to connect to rabbitmq")
 		self._channel = self._connection.channel()
 
 	def send(self, msg, max_retries=5):

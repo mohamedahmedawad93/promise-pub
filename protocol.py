@@ -64,7 +64,6 @@ class LiveProtocol(ConsumerProtocol):
 				session.start_processing()
 				i = 0
 				for row in self.data:
-					print('sending row', row)
 					i += self.rconn.send(row)
 		return i, self.session.info
 
@@ -94,7 +93,6 @@ class BatchProtocol(ConsumerProtocol):
 			with self.session as session:
 				i = 0
 				for row in self.data:
-					print('sending row', row)
 					i += self.rconn.send(row)
 				session.start_processing(mode='batch')
 		return i, self.session.info
