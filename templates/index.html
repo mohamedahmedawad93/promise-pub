@@ -18,12 +18,12 @@
 <body>
 	<div class="stretch">
 		<div class="one-half">
-			<form action="/simulate/">
+			<form action="/simulate/" method="post" enctype="multipart/form-data">
 				<div>
 					<label>Timeout in seconds</label>
 				</div>
 				<div>
-					<input name="timeout" lass="space-form" type="number" placeholder="timeout value" value="10"/>
+					<input name="timeout" class="space-form" type="number" placeholder="timeout value" value="10"/>
 				</div>
 				<div>
 					<label>Mode</label>
@@ -33,6 +33,12 @@
 					  <option value="live">live</option>
 					  <option value="batch">batch</option>
 					</select>
+				</div>
+				<div>
+					<input name="clear" class="space-form" type="checkbox" value="true"/> clear database
+				</div>
+				<div>
+					<input type="file" name="input_file" id="input_file" value="">
 				</div>
 				<input type="submit"></input>
 			</form>

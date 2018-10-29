@@ -9,6 +9,8 @@ def validate_ini(c):
 		raise Exception("the .ini file must contain a rabbit section")
 	if 'consumer' not in config:
 		raise Exception("the .ini file must contain a consumer section")
+	if 'database' not in config:
+		raise Exception("the .ini file must contain a database section")
 
 
 config = configparser.ConfigParser()
@@ -22,3 +24,7 @@ RABBIT_SETTINGS = dict(config['rabbit'])
 
 ################################################ CONSUMER SETTINGS ################################################
 CONSUMER_SETTINGS = dict(config['consumer'])
+
+
+################################################ DATABASE SETTINGS ################################################
+DATABASE_SETTINGS = dict(config['database'])

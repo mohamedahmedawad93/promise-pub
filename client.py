@@ -10,12 +10,13 @@ use create_session to create a session if you don't know the UUID of your sessio
 """
 import requests
 from settings import CONSUMER_SETTINGS
+from exceptions import ConsumerNotAvailableException
 
 
 try:
 	CONSUMER_URL = 'http://%s:%s' %(CONSUMER_SETTINGS['host'], CONSUMER_SETTINGS['port'])
 except KeyError as e:
-	raise ValueError("Missing host or port values in .ini file")
+	raise ValueError("Missing host or port values in the .ini file under the consumer section")
 CONSUMER_HEALTH_URL = '%s%s' %(CONSUMER_URL, CONSUMER_SETTINGS.get('healthcheck_url', '/healthcheck/'))
 CONSUMER_CREATE_URL = '%s%s' %(CONSUMER_URL, CONSUMER_SETTINGS.get('create_url', '/create/'))
 CONSUMER_DELETE_URL = '%s%s' %(CONSUMER_URL, CONSUMER_SETTINGS.get('remove_url', '/remove/'))
@@ -77,17 +78,28 @@ class ConsumerSession:
 		"""
 		this method closes the session with the consumer, then it set the _info dictionary attribute
 		"""
-		res = requests.get(CONSUMER_DELETE_URL, params={'uuid': self.queue})
+		try:
+			res = requests.get(CONSUMER_DELETE_URL, params={'uuid': self.queue})
+		except:
+			raise ConsumerNotAvailableException("Consumer not available at " + CONSUMER_URL)
 		if res.text == CONSUMER_ERROR_RESPONSE:
-			raise Exception("Couldnt close the session, received `%s`" %res.text)
+			raise ConsumerErrorException("Consumer didn't respond with OK but returned `%s` instead \
+											while closing the connection" %res.text)
 		self._info = res.json()
 
 	def start_processing(self, mode='live'):
 		"""
 		this method tells the consumer to start listening on the queue
 		"""
-		res = requests.get(CONSUMER_PROCESS_URL, params={'uuid': self.queue, 'timeout': self._timeout, 'mode': mode})
-		assert res.text == CONSUMER_OK_RESPONSE
+		try:
+			res = requests.get(CONSUMER_PROCESS_URL, params={'uuid': self.queue, 'timeout': self._timeout, 'mode': mode})
+		except:
+			raise ConsumerNotAvailableException("Consumer not available at " + CONSUMER_URL)
+		try:
+			assert res.text == CONSUMER_OK_RESPONSE
+		except:
+			raise ConsumerErrorException("Consumer didn't respond with OK while starting \
+											to process but returned `%s` instead" %res.text)
 
 	def __enter__(self):
 		"""
@@ -114,6 +126,13 @@ def create_session(timeout):
 	input:
 		timeout - int (seconds)
 	"""
-	res = requests.get(CONSUMER_CREATE_URL)
-	uuid = res.json()['uuid']
+	try:
+		res = requests.get(CONSUMER_CREATE_URL)
+	except:
+		raise ConsumerNotAvailableException("Consumer not available at " + CONSUMER_URL)
+	try:
+		uuid = res.json()['uuid']
+	except:
+		raise ConsumerErrorException("Consumer responded with wrong \
+										response while creating session `%s`" %res.text)
 	return ConsumerSession(uuid, timeout)

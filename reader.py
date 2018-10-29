@@ -16,7 +16,7 @@ def read_data(file_name):
 
 	input: file_name : string
 	yields:
-		a json {name: name(string), mail: mail(string)}
+		a json {name: name(string), mail: mail(string)} for each row
 	"""
 	with open(file_name, 'r') as data_file:
 		data = csv.reader(data_file, delimiter=',', quotechar='"')

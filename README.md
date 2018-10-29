@@ -9,9 +9,10 @@ This webserver renders its HTML using `aiohttp_jinja2` library
 
 ## Endpoints
 	- GET / : renders the templates/index.html
-	- GET /simulate/: Simulate endpoint, creates a protocol, starts it and returns a simple html report rendered from templates/result.html, this endpoint takes as querystring:
+	- POST /simulate/: Simulate endpoint, creates a protocol, starts it and returns a simple html report rendered from templates/result.html, this endpoint takes as querystring:
 		1. timeout int    default=5, duration in seconds where the consumer should close the session after the queue is empty for x seconds after the consumer started listening on the queue
 		2. mode    string options are 'live' or 'batch', default='live'
+		3. input_file a headerless csv file to process in the format name,email
 
 
 ## Usage

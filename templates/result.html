@@ -7,16 +7,21 @@
 	<div>
 		<a href="/"><< back to home</a>
 	</div>
-	<h1>Report:</h1>
-	<div>
-		<!-- <p style="color: {% if status=='completed' %}green{% else %}red{% endif %}; font: 20px;">{{status}}</p> -->
-		<p>Rows sent: {{sent}}</p>
-		<label>Session Info: </label>
-		<ul>
-			<li>UUID: {{info.uuid}}</li>
-			<li>Received: {{info.checksum}}</li>
-			<li>Saved: {{info.saved}}</li>
-		</ul>
-	</div>
+	{% if status=='completed' %}
+		<h1>Report:</h1>
+		<div>
+			<p>Rows sent: {{sent}}</p>
+			<p>Database count: {{info.db_count}} rows</p>
+			<label>Session Info: </label>
+			<ul>
+				<li>UUID: {{info.uuid}}</li>
+				<li>Received: {{info.checksum}}</li>
+				<li>Saved: {{info.saved}}</li>
+			</ul>
+		</div>
+	{% else %}
+		<h1>Error:</h1>
+		<p>{{status}}</p>
+	{% endif %}
 </body>
 </html>
